@@ -1,4 +1,4 @@
-package usecases
+package res
 
 type Response struct {
 	StatusCode int         `json:"code, omitempty"`

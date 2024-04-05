@@ -60,7 +60,8 @@ func Route() {
 	{
 		items := v1.Group("/items")
 		{
-			items.POST("/admin/sign-in", handler.HandleSignUp())
+			items.POST("/admin/sign-up", handler.HandleSignUp())
+			items.POST("/admin/sign-in", middleware.ISAdmin(), handler.HandleSignIn())
 			//items.GET("", handler.GetAllStudent(db))
 			//items.GET("/:id", handler.GetId(db))
 			//items.PATCH("/:id", handler.Update_One(db))
