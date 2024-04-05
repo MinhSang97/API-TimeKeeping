@@ -1,20 +1,18 @@
 package handler
 
 import (
-	"app/log"
-	"app/payload"
 	"app/sercurity"
 	"app/usecases"
 	"app/usecases/dto"
 	"app/usecases/req"
 	"app/usecases/res"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	uuid "github.com/google/uuid"
 	"net/http"
 )
 
-func HandleSignIn() func(*gin.Context) {
+func AdminSignIn() func(*gin.Context) {
 	return func(c *gin.Context) {
 		var validate *validator.Validate
 		validate = validator.New(validator.WithRequiredStructEnabled())
@@ -37,23 +35,24 @@ func HandleSignIn() func(*gin.Context) {
 			return
 		}
 
-		hash := sercurity.HashAndSalt([]byte(req.PassWord))
-		role := payload.ADMIN.String()
+		//hash := sercurity.HashAndSalt([]byte(req.PassWord))
+		//role := payload.ADMIN.String()
+		//
+		//userAdminId, err := uuid.NewUUID()
+		//
+		//if err != nil {
+		//	log.Error(err.Error())
+		//	c.JSON(http.StatusForbidden, res.Response{
+		//		StatusCode: http.StatusForbidden,
+		//		Message:    err.Error(),
+		//		Data:       nil,
+		//	})
+		//	return
+		//}
 
-		userAdminId, err := uuid.NewUUID()
-
-		if err != nil {
-			log.Error(err.Error())
-			c.JSON(http.StatusForbidden, res.Response{
-				StatusCode: http.StatusForbidden,
-				Message:    err.Error(),
-				Data:       nil,
-			})
-			return
-		}
-
+		Data := dto.Admin{}
 		//gen token
-		token, err := sercurity.GenToken(dto.Admin{})
+		token, err := sercurity.GenTokenAdmin(dto.Admin{})
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, res.Response{
 				StatusCode: http.StatusInternalServerError,
@@ -62,17 +61,8 @@ func HandleSignIn() func(*gin.Context) {
 			})
 			return
 		}
-
-		userAdmin := dto.Admin{
-			UserId:   userAdminId.String(),
-			Name:     req.Name,
-			PassWord: hash,
-			Email:    req.Email,
-			Role:     role,
-			Token:    token,
-		}
-
-		err = validate.Struct(userAdmin)
+		fmt.Println(token)
+		err = validate.Struct(Data)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -81,10 +71,11 @@ func HandleSignIn() func(*gin.Context) {
 			return
 		}
 
-		data := userAdmin.ToPayload().ToModel()
+		//Data := dto.Admin{}
+		admin := Data.ToPayload().ToModel()
 		uc := usecases.NewAdminUseCase()
 
-		err = uc.CreateAdmin(c.Request.Context(), data)
+		err = uc.CreateAdmin(c.Request.Context(), admin)
 
 		if err != nil {
 			c.JSON(http.StatusConflict, res.Response{
@@ -96,7 +87,7 @@ func HandleSignIn() func(*gin.Context) {
 		}
 
 		c.JSON(http.StatusOK, gin.H{
-			"data": data.ID,
+			"data": admin.Email,
 		})
 
 	}

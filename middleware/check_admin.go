@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"app/payload"
 	"app/usecases/req"
 	"app/usecases/res"
 	"github.com/gin-gonic/gin"
@@ -21,7 +20,7 @@ func ISAdmin() gin.HandlerFunc {
 			c.Abort() // Abort the request chain
 			return
 		}
-		if payload.ADMIN.String() != req.Role {
+		if req.Email != "" {
 			c.JSON(http.StatusBadRequest, res.Response{
 				StatusCode: http.StatusBadRequest,
 				Message:    "Bạn không quyền gọi API này",

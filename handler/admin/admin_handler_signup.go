@@ -14,7 +14,7 @@ import (
 	"net/http"
 )
 
-func HandleSignUp() func(*gin.Context) {
+func AdminSignUp() func(*gin.Context) {
 	return func(c *gin.Context) {
 		var validate *validator.Validate
 		validate = validator.New(validator.WithRequiredStructEnabled())
@@ -37,7 +37,7 @@ func HandleSignUp() func(*gin.Context) {
 			return
 		}
 
-		hash := sercurity.HashAndSalt([]byte(req.PassWord))
+		PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
 		role := payload.ADMIN.String()
 
 		userAdminId, err := uuid.NewUUID()
@@ -53,7 +53,7 @@ func HandleSignUp() func(*gin.Context) {
 		}
 
 		//gen token
-		token, err := sercurity.GenToken(dto.Admin{})
+		token, err := sercurity.GenTokenAdmin(dto.Admin{})
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, res.Response{
 				StatusCode: http.StatusInternalServerError,
@@ -66,7 +66,7 @@ func HandleSignUp() func(*gin.Context) {
 		userAdmin := dto.Admin{
 			UserId:   userAdminId.String(),
 			Name:     req.Name,
-			PassWord: hash,
+			PassWord: PassHash,
 			Email:    req.Email,
 			Role:     role,
 			Token:    token,
@@ -98,7 +98,7 @@ func HandleSignUp() func(*gin.Context) {
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
 			Message:    "Xử lý thành công",
-			Data:       data.ID,
+			Data:       data.UserId,
 		})
 	}
 }

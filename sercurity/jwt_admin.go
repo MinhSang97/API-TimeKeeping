@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-const SECRET_KEY = "learngolanglalalafdfds"
+const SECRET_KEY_ADMIN = "learngolanglalalafdfds"
 
 type JwtCustomClaims struct {
 	UserId string
@@ -16,7 +16,7 @@ type JwtCustomClaims struct {
 	jwt.StandardClaims
 }
 
-func GenToken(user dto.Admin) (string, error) {
+func GenTokenAdmin(user dto.Admin) (string, error) {
 	claims := &JwtCustomClaims{
 		UserId: user.UserId,
 		Role:   user.Role,
@@ -26,7 +26,7 @@ func GenToken(user dto.Admin) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	result, err := token.SignedString([]byte(SECRET_KEY))
+	result, err := token.SignedString([]byte(SECRET_KEY_ADMIN))
 	if err != nil {
 		fmt.Println("Loi tao token", err.Error())
 		return "Tao Token Loi!", err
