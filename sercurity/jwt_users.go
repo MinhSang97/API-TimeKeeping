@@ -1,14 +1,14 @@
 package sercurity
 
 import (
-	"app/usecases/dto/admin"
+	usersdto "app/usecases/dto/users"
 	"fmt"
 
 	"github.com/golang-jwt/jwt"
 	"time"
 )
 
-const SECRET_KEY_USERS = "learngolanglalalafdfds"
+const SECRET_KEY_USERS = "userssecretkeylear"
 
 type JwtCustomClaimsUsers struct {
 	UserId string
@@ -16,7 +16,7 @@ type JwtCustomClaimsUsers struct {
 	jwt.StandardClaims
 }
 
-func GenTokenUsers(user admin.Admin) (string, error) {
+func GenTokenUsers(user usersdto.Users) (string, error) {
 	claims := &JwtCustomClaims{
 		UserId: user.UserId,
 		Role:   user.Role,

@@ -24,6 +24,7 @@ package router
 import (
 	"app/dbutil"
 	"app/handler/admin"
+	usershandler "app/handler/users"
 	"app/middleware"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -60,8 +61,12 @@ func Route() {
 	{
 		items := v1.Group("/items")
 		{
+			//admin
 			items.POST("/admin/sign-up", handler.AdminSignUp())
 			items.POST("/admin/sign-in", handler.AdminSignIn())
+
+			//user
+			items.POST("/users/sign-up", middleware.JWTMiddleware(), usershandler.UsersSignUp())
 			//items.GET("", handler.GetAllStudent(db))
 			//items.GET("/:id", handler.GetId(db))
 			//items.PATCH("/:id", handler.Update_One(db))

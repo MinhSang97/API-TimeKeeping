@@ -5,7 +5,7 @@ import (
 	"app/payload"
 	"app/sercurity"
 	"app/usecases"
-	admindto "app/usecases/dto/admin"
+	usersdto "app/usecases/dto/users"
 	"app/usecases/req"
 	"app/usecases/res"
 	"github.com/gin-gonic/gin"
@@ -14,7 +14,7 @@ import (
 	"net/http"
 )
 
-func AdminSignUp() func(*gin.Context) {
+func UsersSignUp() func(*gin.Context) {
 	return func(c *gin.Context) {
 		var validate *validator.Validate
 		validate = validator.New(validator.WithRequiredStructEnabled())
@@ -38,9 +38,9 @@ func AdminSignUp() func(*gin.Context) {
 		}
 
 		PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
-		role := payload.ADMIN.String()
+		role := payload.EMPLOYEE.String()
 
-		userAdminId, err := uuid.NewUUID()
+		userUsersId, err := uuid.NewUUID()
 
 		if err != nil {
 			log.Error(err.Error())
@@ -53,7 +53,7 @@ func AdminSignUp() func(*gin.Context) {
 		}
 
 		//gen token
-		token, err := sercurity.GenTokenAdmin(admindto.Admin{})
+		token, err := sercurity.GenTokenUsers(usersdto.Users{})
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, res.Response{
 				StatusCode: http.StatusInternalServerError,
@@ -63,8 +63,8 @@ func AdminSignUp() func(*gin.Context) {
 			return
 		}
 
-		userAdmin := admindto.Admin{
-			UserId:   userAdminId.String(),
+		userUsers := usersdto.Users{
+			UserId:   userUsersId.String(),
 			Name:     req.Name,
 			PassWord: PassHash,
 			Email:    req.Email,
@@ -72,7 +72,7 @@ func AdminSignUp() func(*gin.Context) {
 			Token:    token,
 		}
 
-		err = validate.Struct(userAdmin)
+		err = validate.Struct(userUsers)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -81,10 +81,10 @@ func AdminSignUp() func(*gin.Context) {
 			return
 		}
 
-		data := userAdmin.ToPayload().ToModel()
-		uc := usecases.NewAdminUseCase()
+		data := userUsers.ToPayload().ToModel()
+		uc := usecases.NewUsersUseCase()
 
-		err = uc.CreateAdmin(c.Request.Context(), data)
+		err = uc.CreateUsers(c.Request.Context(), data)
 
 		if err != nil {
 			c.JSON(http.StatusConflict, res.Response{
