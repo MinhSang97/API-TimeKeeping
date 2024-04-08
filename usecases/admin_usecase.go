@@ -24,6 +24,6 @@ func (uc *adminUseCase) CreateAdmin(ctx context.Context, admin *admin.Admin) err
 	return uc.adminRepo.CreateAdmin(ctx, admin)
 }
 
-func (uc *adminUseCase) GetAdmin(ctx context.Context, adminreq *admin.ReqSignIn) error {
+func (uc *adminUseCase) GetAdmin(ctx context.Context, adminreq *admin.ReqSignIn) (*admin.ReqSignIn, error) {
 	return uc.adminRepo.GetAdmin(ctx, adminreq)
 }

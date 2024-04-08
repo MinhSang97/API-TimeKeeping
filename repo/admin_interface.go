@@ -7,5 +7,5 @@ import (
 
 type AdminRepo interface {
 	CreateAdmin(ctx context.Context, admin *admin.Admin) error
-	GetAdmin(ctx context.Context, admin *admin.ReqSignIn) error
+	GetAdmin(ctx context.Context, admin *admin.ReqSignIn) (*admin.ReqSignIn, error)
 }

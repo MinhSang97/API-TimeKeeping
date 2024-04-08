@@ -14,15 +14,6 @@ type adminRepository struct {
 	db *gorm.DB
 }
 
-//func (s adminRepository) CreateAdmin(ctx context.Context, admin *model.Admin) error {
-//	users := admin
-//
-//	if err := s.db.Table("Users").Create(users).Error; err != nil {
-//		return fmt.Errorf("create user error: %w", err)
-//	}
-//	return nil
-//}
-
 func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin.Admin) error {
 	users := admin
 
@@ -39,34 +30,19 @@ func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin.Admin) er
 	return nil
 }
 
-//func (s adminRepository) GetAdmin(ctx context.Context, admin *model.ReqSignIn) error {
-//	users := admin
-//
-//	err := s.db.Table("Users").First(users.Email).Error
-//	if err != nil {
-//		log.Error(err.Error())
-//		if err == sql.ErrNoRows {
-//			return errors.UserNotFound
-//		}
-//		log.Error(err.Error())
-//		return err
-//	}
-//	return nil
-//}
-
-func (s adminRepository) GetAdmin(ctx context.Context, admin *admin.ReqSignIn) error {
+func (s adminRepository) GetAdmin(ctx context.Context, admin *admin.ReqSignIn) (*admin.ReqSignIn, error) {
 	users := admin
 
 	err := s.db.Table("Users").Where("email = ?", users.Email).First(users).Error
 	if err != nil {
-		log.Error(err.Error())
+		//log.Error(err.Error())
 		if err == gorm.ErrRecordNotFound {
-			return errors.UserNotFound
+			return nil, errors.UserNotFound
 		}
 		log.Error(err.Error())
-		return err
+		return nil, err
 	}
-	return nil
+	return users, nil
 }
 
 var instances adminRepository
