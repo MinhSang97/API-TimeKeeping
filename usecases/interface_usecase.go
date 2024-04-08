@@ -1,15 +1,15 @@
 package usecases
 
 import (
-	"app/model"
+	"app/model/admin"
 	"context"
 )
 
 type StudentUsecase interface {
-	GetOneByID(ctx context.Context, id int) (model.Student, error)
-	GetAll(ctx context.Context) ([]model.Student, error)
-	UpdateOne(ctx context.Context, id int, student *model.Student) error
+	GetOneByID(ctx context.Context, id int) (admin.Student, error)
+	GetAll(ctx context.Context) ([]admin.Student, error)
+	UpdateOne(ctx context.Context, id int, student *admin.Student) error
 	DeleteOne(ctx context.Context, id int) error
-	Search(ctx context.Context, Value string) ([]model.Student, error)
-	CreateStudent(ctx context.Context, student *model.Student) error
+	Search(ctx context.Context, Value string) ([]admin.Student, error)
+	CreateStudent(ctx context.Context, student *admin.Student) error
 }

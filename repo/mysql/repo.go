@@ -1,7 +1,7 @@
 package mysql
 
 import (
-	"app/model"
+	"app/model/admin"
 	"app/redis"
 	"app/repo"
 	"context"
@@ -16,14 +16,14 @@ type studentRepository struct {
 	db *gorm.DB
 }
 
-func (s studentRepository) GetOneByID(ctx context.Context, id int) (model.Student, error) {
-	var student model.Student
+func (s studentRepository) GetOneByID(ctx context.Context, id int) (admin.Student, error) {
+	var student admin.Student
 	RedisClient := redis.ConnectRedis()
 
 	// Đọc sinh viên từ Redis (nếu có)
 	cachedStudentJSON, err := RedisClient.Get(ctx, fmt.Sprintf("student:%s", id)).Result()
 	if err == nil {
-		var cachedStudent model.Student
+		var cachedStudent admin.Student
 		err := json.Unmarshal([]byte(cachedStudentJSON), &cachedStudent)
 		if err != nil {
 			log.Println("Failed to unmarshal student from Redis:", err)
@@ -67,8 +67,8 @@ func (s studentRepository) GetOneByID(ctx context.Context, id int) (model.Studen
 	return student, nil
 }
 
-func (s studentRepository) GetAll(ctx context.Context) ([]model.Student, error) {
-	var users []model.Student
+func (s studentRepository) GetAll(ctx context.Context) ([]admin.Student, error) {
+	var users []admin.Student
 	if err := s.db.Find(&users).
 		//Offset((handler.Paging - 1) * handler.Paging.Limit).
 		//Limit(handler.Paging.Limit).
@@ -80,7 +80,7 @@ func (s studentRepository) GetAll(ctx context.Context) ([]model.Student, error) 
 
 }
 
-func (s studentRepository) InsertOne(ctx context.Context, student *model.Student) error {
+func (s studentRepository) InsertOne(ctx context.Context, student *admin.Student) error {
 
 	if err := s.db.Create(&student).Error; err != nil {
 		return fmt.Errorf("insert students error: %w", err)
@@ -90,22 +90,22 @@ func (s studentRepository) InsertOne(ctx context.Context, student *model.Student
 
 }
 
-func (s studentRepository) UpdateOne(ctx context.Context, id int, student *model.Student) error {
-	if err := s.db.Model(&model.Student{}).Where("id = ?", id).Updates(student).Error; err != nil {
+func (s studentRepository) UpdateOne(ctx context.Context, id int, student *admin.Student) error {
+	if err := s.db.Model(&admin.Student{}).Where("id = ?", id).Updates(student).Error; err != nil {
 		return fmt.Errorf("update student error: %w", err)
 	}
 	return nil
 }
 
 func (s studentRepository) DeleteOne(ctx context.Context, id int) error {
-	if err := s.db.Where("id = ?", id).Delete(&model.Student{}).Error; err != nil {
+	if err := s.db.Where("id = ?", id).Delete(&admin.Student{}).Error; err != nil {
 		return fmt.Errorf("delete student error: %w", err)
 	}
 	return nil
 }
 
-func (s studentRepository) Search(ctx context.Context, Value string) ([]model.Student, error) {
-	var students []model.Student
+func (s studentRepository) Search(ctx context.Context, Value string) ([]admin.Student, error) {
+	var students []admin.Student
 
 	// Use Find method instead of Where
 	if err := s.db.Where("first_name LIKE ?", "%"+Value+"%").
@@ -118,7 +118,7 @@ func (s studentRepository) Search(ctx context.Context, Value string) ([]model.St
 	return students, nil
 }
 
-func (s studentRepository) CreateStudent(ctx context.Context, student *model.Student) error {
+func (s studentRepository) CreateStudent(ctx context.Context, student *admin.Student) error {
 	if err := s.db.Create(&student).Error; err != nil {
 		return fmt.Errorf("create student error: %w", err)
 	}

@@ -5,7 +5,7 @@ import (
 	"app/payload"
 	"app/sercurity"
 	"app/usecases"
-	"app/usecases/dto"
+	"app/usecases/dto/admin"
 	"app/usecases/req"
 	"app/usecases/res"
 	"github.com/gin-gonic/gin"
@@ -53,7 +53,7 @@ func AdminSignUp() func(*gin.Context) {
 		}
 
 		//gen token
-		token, err := sercurity.GenTokenAdmin(dto.Admin{})
+		token, err := sercurity.GenTokenAdmin(admin.Admin{})
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, res.Response{
 				StatusCode: http.StatusInternalServerError,
@@ -63,7 +63,7 @@ func AdminSignUp() func(*gin.Context) {
 			return
 		}
 
-		userAdmin := dto.Admin{
+		userAdmin := admin.Admin{
 			UserId:   userAdminId.String(),
 			Name:     req.Name,
 			PassWord: PassHash,

@@ -2,7 +2,8 @@ package mysql
 
 import (
 	errors "app/error"
-	"app/model"
+	"app/log"
+	"app/model/admin"
 	"app/repo"
 	"context"
 	"github.com/go-sql-driver/mysql"
@@ -22,7 +23,7 @@ type adminRepository struct {
 //	return nil
 //}
 
-func (s adminRepository) CreateAdmin(ctx context.Context, admin *model.Admin) error {
+func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin.Admin) error {
 	users := admin
 
 	err := s.db.Table("Users").Create(users).Error
@@ -34,6 +35,36 @@ func (s adminRepository) CreateAdmin(ctx context.Context, admin *model.Admin) er
 			}
 		}
 		return errors.SignUpFail
+	}
+	return nil
+}
+
+//func (s adminRepository) GetAdmin(ctx context.Context, admin *model.ReqSignIn) error {
+//	users := admin
+//
+//	err := s.db.Table("Users").First(users.Email).Error
+//	if err != nil {
+//		log.Error(err.Error())
+//		if err == sql.ErrNoRows {
+//			return errors.UserNotFound
+//		}
+//		log.Error(err.Error())
+//		return err
+//	}
+//	return nil
+//}
+
+func (s adminRepository) GetAdmin(ctx context.Context, admin *admin.ReqSignIn) error {
+	users := admin
+
+	err := s.db.Table("Users").Where("email = ?", users.Email).First(users).Error
+	if err != nil {
+		log.Error(err.Error())
+		if err == gorm.ErrRecordNotFound {
+			return errors.UserNotFound
+		}
+		log.Error(err.Error())
+		return err
 	}
 	return nil
 }

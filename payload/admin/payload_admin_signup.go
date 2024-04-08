@@ -1,7 +1,7 @@
-package payload
+package admin
 
 import (
-	"app/model"
+	"app/model/admin"
 	"encoding/json"
 	"log"
 	"time"
@@ -20,8 +20,8 @@ type AddStudentRequest struct {
 	NewDueDate   *time.Time
 }
 
-func (c *AddStudentRequest) ToModel() *model.Student {
-	student := &model.Student{
+func (c *AddStudentRequest) ToModel() *admin.Student {
+	student := &admin.Student{
 		FirstName:    c.FirstName,
 		LastName:     c.LastName,
 		Age:          c.Age,
@@ -54,8 +54,8 @@ type AddAdminRequest struct {
 	Token     string    `json:"-" db:"token"`
 }
 
-func (c *AddAdminRequest) ToModel() *model.Admin {
-	admin := &model.Admin{
+func (c *AddAdminRequest) ToModel() *admin.Admin {
+	admin := &admin.Admin{
 		ID:        c.ID,
 		UserId:    c.UserId,
 		Name:      c.Name,

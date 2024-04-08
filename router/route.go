@@ -60,8 +60,8 @@ func Route() {
 	{
 		items := v1.Group("/items")
 		{
-			items.POST("/admin/sign-up", middleware.JWTMiddleware(), handler.AdminSignUp())
-			items.POST("/admin/sign-in", middleware.JWTMiddleware(), handler.AdminSignIn())
+			items.POST("/admin/sign-up", handler.AdminSignUp())
+			items.POST("/admin/sign-in", handler.AdminSignIn())
 			//items.GET("", handler.GetAllStudent(db))
 			//items.GET("/:id", handler.GetId(db))
 			//items.PATCH("/:id", handler.Update_One(db))

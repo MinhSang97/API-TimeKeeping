@@ -1,7 +1,7 @@
-package dto
+package admin
 
 import (
-	"app/payload"
+	"app/payload/admin"
 	"time"
 )
 
@@ -17,8 +17,8 @@ type Admin struct {
 	Token     string    `json:"-"`
 }
 
-func (c *Admin) ToPayload() *payload.AddAdminRequest {
-	admintPayload := &payload.AddAdminRequest{
+func (c *Admin) ToPayload() *admin.AddAdminRequest {
+	admintPayload := &admin.AddAdminRequest{
 		ID:        c.ID,
 		UserId:    c.UserId,
 		Name:      c.Name,
