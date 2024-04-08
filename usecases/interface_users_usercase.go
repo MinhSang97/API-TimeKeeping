@@ -1,12 +1,11 @@
 package usecases
 
 import (
-	users "app/model/users"
+	"app/model/users_model"
 	"context"
 )
 
 type UsersUsecase interface {
-	//CreateUsers(ctx context.Context, users *users.Users) error
-	CreateUsers(ctx context.Context, users *users.Users) error
-	//GetAdmin(ctx context.Context, admin *admin.ReqSignIn) error
+	CreateUsers(ctx context.Context, users *users_model.Users) error
+	GetUsers(ctx context.Context, users *users_model.ReqUsersSignIn) (*users_model.ReqUsersSignIn, error)
 }

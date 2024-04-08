@@ -1,7 +1,7 @@
 package sercurity
 
 import (
-	usersdto "app/usecases/dto/users"
+	usersdto "app/usecases/dto/users_dto"
 	"fmt"
 
 	"github.com/golang-jwt/jwt"

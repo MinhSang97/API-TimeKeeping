@@ -1,4 +1,4 @@
-package admin
+package users_model
 
 import (
 	"encoding/json"

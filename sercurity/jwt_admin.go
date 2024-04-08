@@ -1,7 +1,7 @@
 package sercurity
 
 import (
-	"app/usecases/dto/admin"
+	"app/usecases/dto/admin_dto"
 	"fmt"
 
 	"github.com/golang-jwt/jwt"
@@ -16,7 +16,7 @@ type JwtCustomClaims struct {
 	jwt.StandardClaims
 }
 
-func GenTokenAdmin(user admin.Admin) (string, error) {
+func GenTokenAdmin(user admin_dto.Admin) (string, error) {
 	claims := &JwtCustomClaims{
 		UserId: user.UserId,
 		Role:   user.Role,

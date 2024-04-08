@@ -1,7 +1,7 @@
-package admin
+package users_payload
 
 import (
-	users "app/model/users"
+	users_model "app/model/users_model"
 	"encoding/json"
 	"log"
 
@@ -20,8 +20,8 @@ type AddUsersRequest struct {
 	Token     string    `json:"-" db:"token"`
 }
 
-func (c *AddUsersRequest) ToModel() *users.Users {
-	admin := &users.Users{
+func (c *AddUsersRequest) ToModel() *users_model.Users {
+	admin := &users_model.Users{
 		ID:        c.ID,
 		UserId:    c.UserId,
 		Name:      c.Name,

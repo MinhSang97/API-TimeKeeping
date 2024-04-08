@@ -5,7 +5,7 @@ import (
 	"app/payload"
 	"app/sercurity"
 	"app/usecases"
-	admindto "app/usecases/dto/admin"
+	admindto "app/usecases/dto/admin_dto"
 	"app/usecases/req"
 	"app/usecases/res"
 	"github.com/gin-gonic/gin"

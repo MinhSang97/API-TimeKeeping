@@ -3,7 +3,7 @@ package handler
 import (
 	"app/sercurity"
 	"app/usecases"
-	"app/usecases/dto/admin"
+	"app/usecases/dto/admin_dto"
 	"app/usecases/req"
 	"app/usecases/res"
 	"github.com/gin-gonic/gin"
@@ -33,7 +33,7 @@ func AdminSignIn() func(*gin.Context) {
 			})
 			return
 		}
-		userAdmin := admin.ReqSignIn{
+		userAdmin := admin_dto.ReqSignIn{
 			PassWord: req.PassWord,
 			Email:    req.Email,
 		}
@@ -85,7 +85,7 @@ func AdminSignIn() func(*gin.Context) {
 		}
 
 		//gen token
-		token, err := sercurity.GenTokenAdmin(admin.Admin{})
+		token, err := sercurity.GenTokenAdmin(admin_dto.Admin{})
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, res.Response{
 				StatusCode: http.StatusInternalServerError,

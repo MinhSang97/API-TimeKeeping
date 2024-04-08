@@ -2,7 +2,8 @@ package mysql
 
 import (
 	errors "app/error"
-	users "app/model/users"
+	"app/log"
+	"app/model/users_model"
 	"app/repo"
 	"context"
 	"github.com/go-sql-driver/mysql"
@@ -13,7 +14,7 @@ type usersRepository struct {
 	db *gorm.DB
 }
 
-func (s usersRepository) CreateUsers(ctx context.Context, users *users.Users) error {
+func (s usersRepository) CreateUsers(ctx context.Context, users *users_model.Users) error {
 
 	err := s.db.Table("Users").Create(users).Error
 	if err != nil {
@@ -28,20 +29,19 @@ func (s usersRepository) CreateUsers(ctx context.Context, users *users.Users) er
 	return nil
 }
 
-//func (s adminRepository) GetAdmin(ctx context.Context, admin *admin.ReqSignIn) error {
-//	users := admin
-//
-//	err := s.db.Table("Users").Where("email = ?", users.Email).First(users).Error
-//	if err != nil {
-//		log.Error(err.Error())
-//		if err == gorm.ErrRecordNotFound {
-//			return errors.UserNotFound
-//		}
-//		log.Error(err.Error())
-//		return err
-//	}
-//	return nil
-//}
+func (s usersRepository) GetUsers(ctx context.Context, users *users_model.ReqUsersSignIn) (*users_model.ReqUsersSignIn, error) {
+
+	err := s.db.Table("Users").Where("email = ?", users.Email).First(users).Error
+	if err != nil {
+		//log.Error(err.Error())
+		if err == gorm.ErrRecordNotFound {
+			return nil, errors.UserNotFound
+		}
+		log.Error(err.Error())
+		return nil, err
+	}
+	return users, nil
+}
 
 var instancesUsers usersRepository
 

@@ -3,7 +3,7 @@ package mysql
 import (
 	errors "app/error"
 	"app/log"
-	"app/model/admin"
+	"app/model/admin_model"
 	"app/repo"
 	"context"
 	"github.com/go-sql-driver/mysql"
@@ -14,7 +14,7 @@ type adminRepository struct {
 	db *gorm.DB
 }
 
-func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin.Admin) error {
+func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin_model.Admin) error {
 	users := admin
 
 	err := s.db.Table("Users").Create(users).Error
@@ -30,7 +30,7 @@ func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin.Admin) er
 	return nil
 }
 
-func (s adminRepository) GetAdmin(ctx context.Context, admin *admin.ReqSignIn) (*admin.ReqSignIn, error) {
+func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSignIn) (*admin_model.ReqSignIn, error) {
 	users := admin
 
 	err := s.db.Table("Users").Where("email = ?", users.Email).First(users).Error

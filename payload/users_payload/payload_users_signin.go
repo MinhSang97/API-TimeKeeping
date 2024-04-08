@@ -1,18 +1,18 @@
-package admin
+package users_payload
 
 import (
-	"app/model/admin"
+	users "app/model/users_model"
 	"encoding/json"
 	"log"
 )
 
-type GetAdminRequest struct {
+type GetUsersRequest struct {
 	PassWord string `json:"-" db:"password, omitempty" validate:"required"`
 	Email    string `json:"email,omitempty" db:"email, omitempty" validate:"required"`
 }
 
-func (c *GetAdminRequest) ToModel() *admin.ReqSignIn {
-	admin := &admin.ReqSignIn{
+func (c *GetUsersRequest) ToModel() *users.ReqUsersSignIn {
+	admin := &users.ReqUsersSignIn{
 		PassWord: c.PassWord,
 		Email:    c.Email,
 	}
@@ -20,7 +20,7 @@ func (c *GetAdminRequest) ToModel() *admin.ReqSignIn {
 	return admin
 }
 
-func (c *GetAdminRequest) FromJson(a string) {
+func (c *GetUsersRequest) FromJson(a string) {
 	err := json.Unmarshal([]byte(a), c)
 	if err != nil {
 		log.Fatalln(err)

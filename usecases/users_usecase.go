@@ -2,7 +2,7 @@ package usecases
 
 import (
 	"app/dbutil"
-	users "app/model/users"
+	"app/model/users_model"
 	"app/repo"
 	"app/repo/mysql"
 	"context"
@@ -20,10 +20,9 @@ func NewUsersUseCase() UsersUsecase {
 	}
 }
 
-func (uc *usersUseCase) CreateUsers(ctx context.Context, users *users.Users) error {
+func (uc *usersUseCase) CreateUsers(ctx context.Context, users *users_model.Users) error {
 	return uc.usersRepo.CreateUsers(ctx, users)
 }
-
-//func (uc *adminUseCase) GetAdmin(ctx context.Context, adminreq *admin.ReqSignIn) error {
-//	return uc.adminRepo.GetAdmin(ctx, adminreq)
-//}
+func (uc *usersUseCase) GetUsers(ctx context.Context, users *users_model.ReqUsersSignIn) (*users_model.ReqUsersSignIn, error) {
+	return uc.usersRepo.GetUsers(ctx, users)
+}

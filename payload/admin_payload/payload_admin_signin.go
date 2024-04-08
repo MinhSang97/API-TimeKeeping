@@ -1,7 +1,7 @@
-package admin
+package admin_payload
 
 import (
-	"app/model/admin"
+	"app/model/admin_model"
 	"encoding/json"
 	"log"
 )
@@ -11,8 +11,8 @@ type GetAdminRequest struct {
 	Email    string `json:"email,omitempty" db:"email, omitempty" validate:"required"`
 }
 
-func (c *GetAdminRequest) ToModel() *admin.ReqSignIn {
-	admin := &admin.ReqSignIn{
+func (c *GetAdminRequest) ToModel() *admin_model.ReqSignIn {
+	admin := &admin_model.ReqSignIn{
 		PassWord: c.PassWord,
 		Email:    c.Email,
 	}
