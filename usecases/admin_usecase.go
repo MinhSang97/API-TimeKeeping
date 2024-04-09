@@ -27,3 +27,7 @@ func (uc *adminUseCase) CreateAdmin(ctx context.Context, admin *admin_model.Admi
 func (uc *adminUseCase) GetAdmin(ctx context.Context, adminreq *admin_model.ReqSignIn) (*admin_model.ReqSignIn, error) {
 	return uc.adminRepo.GetAdmin(ctx, adminreq)
 }
+
+func (uc *adminUseCase) UpdateAdmin(ctx context.Context, user_id string, admin *admin_model.Admin) error {
+	return uc.adminRepo.UpdateAdmin(ctx, user_id, admin)
+}

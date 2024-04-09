@@ -24,8 +24,8 @@ type Admin struct {
 	PassWord  string    `json:"-" db:"password, omitempty" validate:"required"`
 	Email     string    `json:"email,omitempty" db:"email, omitempty" validate:"required"`
 	Role      string    `json:"-" db:"role, omitempty"`
-	CreatedAt time.Time `json:"-" db:"created_at, omitempty"`
-	UpdatedAt time.Time `json:"-" db:"updated_at, omitempty"`
+	CreatedAt time.Time `json:"-"`
+	UpdatedAt time.Time `json:"-"`
 	Token     string    `json:"-" db:"token"`
 }
 

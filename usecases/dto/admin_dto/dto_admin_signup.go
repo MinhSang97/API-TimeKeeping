@@ -6,14 +6,14 @@ import (
 )
 
 type Admin struct {
-	ID        int64     `json:"id"`
-	UserId    string    `json:"userid"`
+	ID        int64     `json:"-"`
+	UserId    string    `json:"-"`
 	Name      string    `json:"name"  validate:"required"`
 	PassWord  string    `json:"-" validate:"required"`
 	Email     string    `json:"email" validate:"required,email"`
-	Role      string    `json:"role"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	Role      string    `json:"-"`
+	CreatedAt time.Time `json:"-"`
+	UpdatedAt time.Time `json:"-"`
 	Token     string    `json:"-"`
 }
 

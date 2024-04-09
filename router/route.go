@@ -64,6 +64,7 @@ func Route() {
 			//admin
 			items.POST("/admin/sign-up", handler.AdminSignUp())
 			items.POST("/admin/sign-in", handler.AdminSignIn())
+			items.PATCH("/admin/update/:user_id", middleware.JWTMiddleware(), handler.AdminUpdate())
 
 			//user
 			items.POST("/users/sign-up", middleware.JWTMiddleware(), usersHandler.UsersSignUp())
