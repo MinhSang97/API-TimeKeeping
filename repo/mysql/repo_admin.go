@@ -61,6 +61,22 @@ func (s adminRepository) UpdateAdmin(ctx context.Context, user_id string, admin 
 	return nil
 }
 
+func (s adminRepository) DeleteAdmin(ctx context.Context, user_id string) error {
+	users := user_id
+
+	err := s.db.Table("Users").Where("user_id = ?", user_id).Delete(users).Error
+	if err != nil {
+		if driverErr, ok := err.(*mysql.MySQLError); ok {
+
+			if driverErr.Number == 1062 {
+				return errors.UserNotDeleted
+			}
+		}
+		return errors.UserNotFound
+	}
+	return nil
+}
+
 var instances adminRepository
 
 func NewAdminRepository(db *gorm.DB) repo.AdminRepo {

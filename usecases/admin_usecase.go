@@ -31,3 +31,7 @@ func (uc *adminUseCase) GetAdmin(ctx context.Context, adminreq *admin_model.ReqS
 func (uc *adminUseCase) UpdateAdmin(ctx context.Context, user_id string, admin *admin_model.Admin) error {
 	return uc.adminRepo.UpdateAdmin(ctx, user_id, admin)
 }
+
+func (uc *adminUseCase) DeleteAdmin(ctx context.Context, user_id string) error {
+	return uc.adminRepo.DeleteAdmin(ctx, user_id)
+}

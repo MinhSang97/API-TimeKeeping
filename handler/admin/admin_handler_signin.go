@@ -47,15 +47,6 @@ func AdminSignIn() func(*gin.Context) {
 			return
 		}
 
-		err = validate.Struct(userAdmin)
-
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
-
 		data := userAdmin.ToPayload().ToModel()
 		uc := usecases.NewAdminUseCase()
 

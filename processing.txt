@@ -7,3 +7,4 @@ xong API Signup USERS
 xong API Signin USERS
 
 xong API Update ADMIN
+xong API delete ADMIN
