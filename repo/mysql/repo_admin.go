@@ -4,6 +4,7 @@ import (
 	errors "app/error"
 	"app/log"
 	"app/model/admin_model"
+	"app/model/users_model"
 	"app/repo"
 	"context"
 	"github.com/go-sql-driver/mysql"
@@ -62,18 +63,26 @@ func (s adminRepository) UpdateAdmin(ctx context.Context, user_id string, admin 
 }
 
 func (s adminRepository) DeleteAdmin(ctx context.Context, user_id string) error {
-	users := user_id
+	var user users_model.Users
 
-	err := s.db.Table("Users").Where("user_id = ?", user_id).Delete(users).Error
-	if err != nil {
+	// Check if user exists
+	if err := s.db.Table("Users").Where("user_id = ?", user_id).First(&user).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return errors.UserNotFound
+		}
+		return err
+	}
+
+	// If user exists, delete the user
+	if err := s.db.Table("Users").Where("user_id = ?", user_id).Delete(&user).Error; err != nil {
 		if driverErr, ok := err.(*mysql.MySQLError); ok {
-
 			if driverErr.Number == 1062 {
 				return errors.UserNotDeleted
 			}
 		}
-		return errors.UserNotFound
+		return err
 	}
+
 	return nil
 }
 

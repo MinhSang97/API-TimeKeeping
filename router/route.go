@@ -63,6 +63,7 @@ func Route() {
 			items.POST("/users/sign-up", middleware.JWTMiddlewareAdmin(), usersHandler.UsersSignUp())
 			items.POST("/users/sign-in", usersHandler.UsersSignIn())
 			items.PATCH("/users/update/:user_id", middleware.JWTMiddlewareUsers(), usersHandler.UsersUpdate())
+			items.DELETE("/users/delete/:user_id", middleware.JWTMiddlewareAdmin(), usersHandler.UsersDelete())
 			//items.GET("", handler.GetAllStudent(db))
 			//items.GET("/:id", handler.GetId(db))
 			//items.PATCH("/:id", handler.Update_One(db))

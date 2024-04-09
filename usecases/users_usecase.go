@@ -30,3 +30,7 @@ func (uc *usersUseCase) GetUsers(ctx context.Context, users *users_model.ReqUser
 func (uc *usersUseCase) UpdateUsers(ctx context.Context, user_id string, users *users_model.Users) error {
 	return uc.usersRepo.UpdateUsers(ctx, user_id, users)
 }
+
+func (uc *usersUseCase) DeleteUsers(ctx context.Context, user_id string) error {
+	return uc.usersRepo.DeleteUsers(ctx, user_id)
+}

@@ -3,7 +3,6 @@ package handler
 import (
 	"app/usecases"
 	"app/usecases/res"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -11,7 +10,6 @@ import (
 func AdminDelete() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")
-		fmt.Println("user_id", user_id)
 
 		if user_id == "" {
 			c.JSON(http.StatusBadRequest, gin.H{
