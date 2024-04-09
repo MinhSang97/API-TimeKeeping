@@ -82,7 +82,7 @@ func AdminUpdate() func(*gin.Context) {
 
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
-			Message:    "Xử lý cập nhật thành công",
+			Message:    "Xử lý thành công",
 			Data:       usersUpdate,
 		})
 	}

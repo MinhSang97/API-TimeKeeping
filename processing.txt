@@ -5,3 +5,5 @@ xong API Signin ADMIN
 xong API Signup USERS
 
 xong API Signin USERS
+
+xong API Update ADMIN

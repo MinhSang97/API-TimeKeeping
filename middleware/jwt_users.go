@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func JWTMiddleware() gin.HandlerFunc {
+func JWTMiddlewareUsers() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
@@ -27,7 +27,7 @@ func JWTMiddleware() gin.HandlerFunc {
 		tokenString := authParts[1]
 
 		token, err := jwt.ParseWithClaims(tokenString, &usecases.JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
-			return []byte(sercurity.SECRET_KEY_ADMIN), nil
+			return []byte(sercurity.SECRET_KEY_USERS), nil
 		})
 
 		if err != nil || !token.Valid {

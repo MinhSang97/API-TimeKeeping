@@ -45,17 +45,9 @@ func Route() {
 	//	panic(err)
 	//}
 
-	// Your existing code to set up routes and database
-
-	// Register your route, passing the configuration
-
 	r := gin.Default()
 	r.Use(middleware.ErrorHandler())
 	//r.Use(middleware.BasicAuthMiddleware())
-
-	r.GET("/secure", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "This is a secure route"})
-	})
 
 	v1 := r.Group("/v1")
 	{
@@ -64,10 +56,11 @@ func Route() {
 			//admin
 			items.POST("/admin/sign-up", handler.AdminSignUp())
 			items.POST("/admin/sign-in", handler.AdminSignIn())
-			items.PATCH("/admin/update/:user_id", middleware.JWTMiddleware(), handler.AdminUpdate())
+			items.PATCH("/admin/update/:user_id", middleware.JWTMiddlewareAdmin(), handler.AdminUpdate())
+			items.PATCH("/admin/delete/:user_id", middleware.JWTMiddlewareAdmin(), handler.AdminUpdate())
 
 			//user
-			items.POST("/users/sign-up", middleware.JWTMiddleware(), usersHandler.UsersSignUp())
+			items.POST("/users/sign-up", middleware.JWTMiddlewareAdmin(), usersHandler.UsersSignUp())
 			items.POST("/users/sign-in", usersHandler.UsersSignIn())
 			//items.GET("", handler.GetAllStudent(db))
 			//items.GET("/:id", handler.GetId(db))
