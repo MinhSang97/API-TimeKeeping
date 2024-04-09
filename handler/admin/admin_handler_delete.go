@@ -12,7 +12,7 @@ import (
 	"net/http"
 )
 
-func AdminUpdate() func(*gin.Context) {
+func AdminDelete() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")
 		fmt.Println("user_id", user_id)

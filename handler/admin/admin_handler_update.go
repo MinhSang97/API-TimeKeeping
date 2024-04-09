@@ -6,7 +6,6 @@ import (
 	admindto "app/usecases/dto/admin_dto"
 	"app/usecases/req"
 	"app/usecases/res"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"net/http"
@@ -15,11 +14,9 @@ import (
 func AdminUpdate() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")
-		fmt.Println("user_id", user_id)
-
 		if user_id == "" {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "ko tim thay user_id",
+				"error": "không tìm thấy user_id",
 			})
 			return
 		}

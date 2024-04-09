@@ -59,9 +59,6 @@ func AdminSignIn() func(*gin.Context) {
 		data := userAdmin.ToPayload().ToModel()
 		uc := usecases.NewAdminUseCase()
 
-		//admin := Data.ToPayload().ToModel()
-		//uc := usecases.NewAdminUseCase()
-
 		adminPass, err := uc.GetAdmin(c.Request.Context(), data)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, res.Response{
@@ -72,8 +69,7 @@ func AdminSignIn() func(*gin.Context) {
 			return
 		}
 
-		//PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
-		//// check pass
+		//check pass
 		isTheSame := sercurity.ComparePasswords(adminPass.PassWord, []byte(req.PassWord))
 		if !isTheSame {
 			c.JSON(http.StatusUnauthorized, res.Response{

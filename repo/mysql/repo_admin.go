@@ -6,7 +6,6 @@ import (
 	"app/model/admin_model"
 	"app/repo"
 	"context"
-	"fmt"
 	"github.com/go-sql-driver/mysql"
 	"gorm.io/gorm"
 )
@@ -48,7 +47,6 @@ func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSig
 
 func (s adminRepository) UpdateAdmin(ctx context.Context, user_id string, admin *admin_model.Admin) error {
 	users := admin
-	fmt.Println(user_id)
 
 	err := s.db.Table("Users").Where("user_id = ?", user_id).Updates(users).Error
 	if err != nil {

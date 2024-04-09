@@ -57,7 +57,7 @@ func Route() {
 			items.POST("/admin/sign-up", handler.AdminSignUp())
 			items.POST("/admin/sign-in", handler.AdminSignIn())
 			items.PATCH("/admin/update/:user_id", middleware.JWTMiddlewareAdmin(), handler.AdminUpdate())
-			items.PATCH("/admin/delete/:user_id", middleware.JWTMiddlewareAdmin(), handler.AdminUpdate())
+			items.PATCH("/admin/delete/:user_id", middleware.JWTMiddlewareAdmin(), handler.AdminDelete())
 
 			//user
 			items.POST("/users/sign-up", middleware.JWTMiddlewareAdmin(), usersHandler.UsersSignUp())
