@@ -74,7 +74,7 @@ func AdminDelete() func(*gin.Context) {
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
 			Message:    "Xoá thành công",
-			Data:       user_id,
+			Data:       map[string]interface{}{"user_id": user_id},
 		})
 	}
 }

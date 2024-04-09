@@ -15,7 +15,6 @@ type usersRepository struct {
 }
 
 func (s usersRepository) CreateUsers(ctx context.Context, users *users_model.Users) error {
-
 	err := s.db.Table("Users").Create(users).Error
 	if err != nil {
 		if driverErr, ok := err.(*mysql.MySQLError); ok {
@@ -41,6 +40,20 @@ func (s usersRepository) GetUsers(ctx context.Context, users *users_model.ReqUse
 		return nil, err
 	}
 	return users, nil
+}
+
+func (s usersRepository) UpdateUsers(ctx context.Context, user_id string, users *users_model.Users) error {
+	err := s.db.Table("Users").Where("user_id = ?", user_id).Updates(users).Error
+	if err != nil {
+		if driverErr, ok := err.(*mysql.MySQLError); ok {
+
+			if driverErr.Number == 1062 {
+				return errors.UserNotUpdated
+			}
+		}
+		return errors.SignUpFail
+	}
+	return nil
 }
 
 var instancesUsers usersRepository
