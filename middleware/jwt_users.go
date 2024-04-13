@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"app/sercurity"
-	"app/usecases"
+	"app/usecases/claims"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"strings"
@@ -26,7 +26,7 @@ func JWTMiddlewareUsers() gin.HandlerFunc {
 
 		tokenString := authParts[1]
 
-		token, err := jwt.ParseWithClaims(tokenString, &usecases.JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+		token, err := jwt.ParseWithClaims(tokenString, &claims.JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 			return []byte(sercurity.SECRET_KEY_USERS), nil
 		})
 
@@ -36,7 +36,7 @@ func JWTMiddlewareUsers() gin.HandlerFunc {
 			return
 		}
 
-		claims, ok := token.Claims.(*usecases.JwtCustomClaims)
+		claims, ok := token.Claims.(*claims.JwtCustomClaims)
 		if !ok {
 			c.JSON(401, gin.H{"error": "invalid in Bear or expired Token"})
 			c.Abort()

@@ -24,6 +24,7 @@ package router
 import (
 	"app/dbutil"
 	"app/handler/admin"
+	attendance "app/handler/attendance"
 	usersHandler "app/handler/users"
 	"app/middleware"
 	"fmt"
@@ -64,6 +65,11 @@ func Route() {
 			items.POST("/users/sign-in", usersHandler.UsersSignIn())
 			items.PATCH("/users/update/:user_id", middleware.JWTMiddlewareUsers(), usersHandler.UsersUpdate())
 			items.DELETE("/users/delete/:user_id", middleware.JWTMiddlewareAdmin(), usersHandler.UsersDelete())
+
+			//attendance
+			items.POST("/attendance/check-in", middleware.JWTMiddlewareUsers(), attendance.AttendanceCheckIn())
+			items.POST("/attendance/check-out/:id", middleware.JWTMiddlewareUsers(), attendance.AttendanceCheckOut())
+			items.GET("/attendance/history", middleware.JWTMiddlewareUsers(), attendance.AttendanceHistory())
 			//items.GET("", handler.GetAllStudent(db))
 			//items.GET("/:id", handler.GetId(db))
 			//items.PATCH("/:id", handler.Update_One(db))

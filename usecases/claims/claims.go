@@ -1,4 +1,4 @@
-package usecases
+package claims
 
 import "github.com/golang-jwt/jwt"
 

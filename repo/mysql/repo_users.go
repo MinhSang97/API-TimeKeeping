@@ -56,23 +56,6 @@ func (s usersRepository) UpdateUsers(ctx context.Context, user_id string, users 
 	return nil
 }
 
-//
-//func (s usersRepository) DeleteUsers(ctx context.Context, user_id string) error {
-//	users := user_id
-//
-//	err := s.db.Table("Users").Where("user_id = ?", user_id).Delete(users).Error
-//	if err != nil {
-//		if driverErr, ok := err.(*mysql.MySQLError); ok {
-//
-//			if driverErr.Number == 1062 {
-//				return errors.UserNotDeleted
-//			}
-//		}
-//		return errors.UserNotFound
-//	}
-//	return nil
-//}
-
 func (s usersRepository) DeleteUsers(ctx context.Context, user_id string) error {
 	var user users_model.Users
 
