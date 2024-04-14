@@ -2,6 +2,8 @@ package log
 
 import (
 	"encoding/json"
+	"github.com/gin-gonic/gin"
+	"github.com/labstack/echo"
 	rotatelogs "github.com/lestrrat/go-file-rotatelogs"
 	"io"
 	"os"
@@ -9,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/labstack/echo"
 	"github.com/labstack/gommon/log"
 	"github.com/rifflock/lfshook"
 	"github.com/sirupsen/logrus"
@@ -86,25 +87,64 @@ func InitLogger(forTest bool) *MyLogger {
 }
 
 // LoggerHandler middleware logs the information about each HTTP request.
-func LoggerHandler(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(ctx echo.Context) error {
-		req := ctx.Request()
+//
+//	func LoggerHandler(next gin.HandlerFunc) gin.HandlerFunc {
+//		return func(c *gin.Context) {
+//			req := ctx.Request
+//			if !strings.Contains(req.RequestURI, "healthcheck") {
+//				// add some default fields to the logger ~ on all messages
+//				logger := Log.WithFields(logrus.Fields{
+//					"id":          req.Header.Get(echo.HeaderXRequestID),
+//					"method":      req.Method,
+//					"ip":          ctx.RealIP(),
+//					"request_uri": req.RequestURI,
+//				})
+//				ctx.Set("logger", logger)
+//				startTime := time.Now()
+//
+//				defer func() {
+//					rsp := ctx.Response()
+//					// at the end we will want to log a few more interesting fields
+//					logger.WithFields(logrus.Fields{
+//						"status_code":  rsp.Status,
+//						"runtime_nano": time.Since(startTime).Nanoseconds(),
+//					}).Info("Finished request")
+//				}()
+//
+//				// now we will log out that we have actually started the request
+//				logger.WithFields(logrus.Fields{
+//					"id":             req.Header.Get(echo.HeaderXRequestID),
+//					"user_agent":     req.UserAgent(),
+//					"content_length": req.ContentLength,
+//				}).Info("Starting request")
+//			}
+//
+//			err := next(ctx)
+//			if err != nil {
+//				ctx.Error(err)
+//			}
+//			return err
+//		}
+//	}
+func LoggerHandler(next gin.HandlerFunc) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		req := c.Request // change from ctx.Request to c.Request
 		if !strings.Contains(req.RequestURI, "healthcheck") {
 			// add some default fields to the logger ~ on all messages
 			logger := Log.WithFields(logrus.Fields{
 				"id":          req.Header.Get(echo.HeaderXRequestID),
 				"method":      req.Method,
-				"ip":          ctx.RealIP(),
+				"ip":          c.ClientIP(), // change from ctx.RealIP() to c.ClientIP()
 				"request_uri": req.RequestURI,
 			})
-			ctx.Set("logger", logger)
+			c.Set("logger", logger) // change from ctx.Set to c.Set
 			startTime := time.Now()
 
 			defer func() {
-				rsp := ctx.Response()
+				rsp := c.Writer.Status() // change from ctx.Response() to c.Writer.Status()
 				// at the end we will want to log a few more interesting fields
 				logger.WithFields(logrus.Fields{
-					"status_code":  rsp.Status,
+					"status_code":  rsp,
 					"runtime_nano": time.Since(startTime).Nanoseconds(),
 				}).Info("Finished request")
 			}()
@@ -117,11 +157,8 @@ func LoggerHandler(next echo.HandlerFunc) echo.HandlerFunc {
 			}).Info("Starting request")
 		}
 
-		err := next(ctx)
-		if err != nil {
-			ctx.Error(err)
-		}
-		return err
+		next(c) // change from next(ctx) to next(c)
+
 	}
 }
 

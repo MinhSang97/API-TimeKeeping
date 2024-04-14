@@ -1,109 +1,76 @@
-//package main
-//
-//import (
-//	"fmt"
-//	"io/ioutil"
-//	"net/http"
-//)
-//
-//func main() {
-//	// Thay thế YOUR_API_KEY bằng API key của bạn
-//	apiKey := "AIzaSyAz-hLh34RJEYpzJAxn8YCFlfVPg3iPJWI"
-//	// Thay thế YOUR_ADDRESS bằng địa chỉ mà bạn muốn lấy định vị
-//	//address := "YOUR_ADDRESS"
-//	address := "1600 Amphitheatre Pkwy, Mountain View, CA 94043"
-//
-//	// Tạo URL cho yêu cầu API
-//	url := fmt.Sprintf("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s", address, apiKey)
-//
-//	// Thực hiện yêu cầu HTTP GET đến API của Google Maps
-//	resp, err := http.Get(url)
-//	if err != nil {
-//		fmt.Println("Lỗi khi gọi API:", err)
-//		return
-//	}
-//	defer resp.Body.Close()
-//
-//	// Đọc dữ liệu từ phản hồi
-//	body, err := ioutil.ReadAll(resp.Body)
-//	if err != nil {
-//		fmt.Println("Lỗi khi đọc dữ liệu:", err)
-//		return
-//	}
-//
-//	// In kết quả
-//	fmt.Println(string(body))
-//}
-
-// package main
-//
-// import (
-//
-//	"context"
-//	"fmt"
-//	"log"
-//
-//	"googlemaps.github.io/maps"
-//
-// )
-//
-//	func main() {
-//		// Tạo một bối cảnh mới
-//		ctx := context.Background()
-//
-//		// Khởi tạo client cho Google Maps API
-//		client, err := maps.NewClient(maps.WithAPIKey("AIzaSyAz-hLh34RJEYpzJAxn8YCFlfVPg3iPJWI"))
-//		if err != nil {
-//			log.Fatalf("maps.NewClient(): %v", err)
-//		}
-//
-//		// Lấy vị trí hiện tại
-//		loc, err := client.GetCurrentPlace(ctx)
-//		if err != nil {
-//			log.Fatalf("client.GetCurrentPlace(): %v", err)
-//		}
-//
-//		// Hiển thị vị trí
-//		if len(loc.Places) > 0 {
-//			place := loc.Places[0]
-//			fmt.Printf("Latitude: %f, Longitude: %f\n", place.Geometry.Location.Lat, place.Geometry.Location.Lng)
-//		} else {
-//			fmt.Println("No place found")
-//		}
-//	}
 package main
 
 import (
-	"context"
 	"fmt"
-	"log"
-
-	"googlemaps.github.io/maps"
+	"time"
 )
 
+//func main() {
+//	startTime := time.Now() // Thời điểm bắt đầu
+//
+//	// Lấy thời gian hiện tại theo múi giờ UTC+7
+//	currentTime := time.Now().UTC().Add(7 * time.Hour)
+//
+//	// Đặt đầu tuần là thứ Hai
+//	weekStart := currentTime
+//	for weekStart.Weekday() != time.Monday {
+//		weekStart = weekStart.Add(-24 * time.Hour)
+//	}
+//
+//	// Tính toán cuối tuần (thứ Sáu)
+//	weekEnd := weekStart.Add(5 * 24 * time.Hour)
+//
+//	fmt.Println("Week Start Date:", weekStart.Format("Monday,02-01-2006"))
+//	fmt.Println("Week End Date:", weekEnd.Format("Monday, 02-01-2006"))
+//
+//	endTime := time.Now()                     // Thời điểm kết thúc
+//	elapsedTime := endTime.Sub(startTime)     // Thời gian đã trôi qua
+//	fmt.Println("Elapsed Time:", elapsedTime) // In ra thời gian đã trôi qua
+//}
+
+//func main() {
+//	startTime := time.Now() // Thời điểm bắt đầu
+//
+//	// Lấy thời gian hiện tại theo múi giờ UTC+7
+//	currentTime := time.Now().UTC().Add(7 * time.Hour)
+//
+//	// Tính toán ngày bắt đầu của tuần (thứ Hai)
+//	weekday := currentTime.Weekday()
+//	daysSinceMonday := int(weekday - time.Monday)
+//	if daysSinceMonday < 0 {
+//		daysSinceMonday += 7
+//	}
+//	weekStart := currentTime.AddDate(0, 0, -daysSinceMonday)
+//
+//	// Tính toán ngày kết thúc của tuần (thứ Sáu)
+//	weekEnd := weekStart.Add(4 * 24 * time.Hour)
+//
+//	// In ra ngày bắt đầu của tuần và ngày kết thúc của tuần với định dạng mong muốn
+//	fmt.Println("Week Start Date:", weekStart.Format("Monday, 02-01-2006"))
+//	fmt.Println("Week End Date:", weekEnd.Format("Monday, 02-01-2006"))
+//
+//	endTime := time.Now()                     // Thời điểm kết thúc
+//	elapsedTime := endTime.Sub(startTime)     // Thời gian đã trôi qua
+//	fmt.Println("Elapsed Time:", elapsedTime) // In ra thời gian đã trôi qua
+//}
+
 func main() {
-	// Create a new context
-	ctx := context.Background()
+	startTime := time.Now() // Thời điểm bắt đầu
 
-	// Initialize a client for the Google Maps API
-	client, err := maps.NewClient(maps.WithAPIKey("AIzaSyAz-hLh34RJEYpzJAxn8YCFlfVPg3iPJWI"))
-	if err != nil {
-		log.Fatalf("maps.NewClient(): %v", err)
-	}
+	// Lấy thời gian hiện tại theo múi giờ UTC+7
+	currentTime := time.Now().UTC().Add(7 * time.Hour)
 
-	// Geocode an address
-	res, err := client.Geocode(ctx, &maps.GeocodingRequest{
-		Address: "1600 Amphitheatre Pkwy, Mountain View, CA 94043",
-	})
-	if err != nil {
-		log.Fatalf("client.Geocode(): %v", err)
-	}
+	// Tính toán ngày bắt đầu của tuần (thứ Hai)
+	weekStart := currentTime.AddDate(0, 0, -int(currentTime.Weekday())+1)
 
-	// Display the location
-	if len(res) > 0 {
-		loc := res[0]
-		fmt.Printf("Latitude: %f, Longitude: %f\n", loc.Geometry.Location.Lat, loc.Geometry.Location.Lng)
-	} else {
-		fmt.Println("No place found")
-	}
+	// Tính toán ngày kết thúc của tuần (thứ Sáu)
+	weekEnd := weekStart.Add(6 * 24 * time.Hour)
+
+	// In ra ngày bắt đầu của tuần và ngày kết thúc của tuần với định dạng mong muốn
+	fmt.Println("Week Start Date:", weekStart.Format("Monday, 02-01-2006"))
+	fmt.Println("Week End Date:", weekEnd.Format("Monday, 02-01-2006"))
+
+	endTime := time.Now()                     // Thời điểm kết thúc
+	elapsedTime := endTime.Sub(startTime)     // Thời gian đã trôi qua
+	fmt.Println("Elapsed Time:", elapsedTime) // In ra thời gian đã trôi qua
 }
