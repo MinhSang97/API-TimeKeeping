@@ -1,24 +1,3 @@
-//package router
-//
-//import (
-//	"app/handler"
-//	appMiddleware "app/middleware"
-//	"github.com/labstack/echo/v4"
-//)
-//
-//type API struct {
-//	Echo         *echo.Echo
-//	AdminHandler handler.AdminHandler
-//	RepoHandler  handler.RepoHandler
-//}
-//
-//func (api *API) SetupRouter() {
-//	// user
-//
-//	api.Echo.POST("/user/sign-in", api.AdminHandler.HandleSignIn, appMiddleware.ISAdmin())
-//	api.Echo.POST("/user/sign-up", api.UserHandler.HandleSignUp)
-//}
-
 package router
 
 import (
@@ -48,6 +27,8 @@ func Route() {
 
 	r := gin.Default()
 	r.Use(middleware.ErrorHandler())
+	// Sử dụng middleware SaveLogRequest()
+	r.Use(middleware.SaveLogRequest())
 	//r.Use(middleware.BasicAuthMiddleware())
 
 	v1 := r.Group("/v1")
@@ -79,6 +60,6 @@ func Route() {
 		}
 	}
 
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	r.Run()
 
 }

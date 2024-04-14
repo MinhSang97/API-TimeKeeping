@@ -6,8 +6,7 @@ import (
 )
 
 func main() {
-
 	router.Route()
 	redis.ConnectRedis()
-
+	//middleware.SaveLogRequest()
 }

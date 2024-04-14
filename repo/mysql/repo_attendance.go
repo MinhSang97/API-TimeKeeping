@@ -6,7 +6,6 @@ import (
 	"app/model/attendance_model"
 	"app/repo"
 	"context"
-	"fmt"
 	"gorm.io/gorm"
 	"time"
 )
@@ -82,9 +81,6 @@ func (s attendanceRepository) CheckOut(ctx context.Context, id int, checkout *at
 }
 
 func (s attendanceRepository) History(ctx context.Context, history *attendance_model.Attendance) ([]attendance_model.Attendance, error) {
-
-	fmt.Println(history.UserId)
-	fmt.Println(history.Department)
 	attendances := []attendance_model.Attendance{}
 	err := s.db.Table("Attendance").Where("user_id = ? And department = ?", history.UserId, history.Department).
 		Find(&attendances).Error
